@@ -22,7 +22,7 @@ unsigned long previousMillies = 0;
 const long blinkInterval = 1000;
 bool ledstate = true;
 
-bool pause = true;
+bool pause = false;
 
 void setup() {
   // put your setup code here, to run once:
@@ -85,7 +85,7 @@ void pauseMode() {
 
 void setHome() {
 
-  
+
 }
 
 
