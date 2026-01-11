@@ -36,7 +36,7 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(clk_pin), speedChange, CHANGE);
 
   // Set up the display. 
-  display.setBrightness(0x0B);
+  display.setBrightness(0x0F);
   display.showNumberDecEx(envoder_value);
   speedChange();
 }
@@ -49,6 +49,7 @@ void loop() {
   // put your main code here, to run repeatedly
     rotaryEncoderButton();
     pauseMode();
+    PWMOUT();
 }
 
 
@@ -88,6 +89,23 @@ void setHome() {
 
 }
 
+void PWMOUT() {
+  display.showNumberDecEx(envoder_value);
+
+  if(envoder_value == 100) {
+
+    digitalWrite(9, LOW);
+  } 
+  else if(envoder_value == 0) {
+
+    digitalWrite(9, HIGH);
+  }
+  else {
+
+    analogWrite(9, (255-duty));
+  }
+}
+
 
 void speedChange() {
   // Read the pot value when changed.
@@ -109,16 +127,16 @@ void speedChange() {
 
   duty = map(envoder_value, 0, 100, 0, 255);
 
-  display.showNumberDecEx(envoder_value);
-
-  digitalWrite(9, duty);
+  PWMOUT();
   }
 
   void rotaryEncoderButton() {
     // Reads the button on the encoder if pressed.
-    if(digitalRead(rotaryEncoderButton_pin) == 1)
+    int button = digitalRead(rotaryEncoderButton_pin);
+    if(button == LOW)
     {
 
       envoder_value = 0;
+      display.showNumberDecEx(envoder_value);
     }
   }
